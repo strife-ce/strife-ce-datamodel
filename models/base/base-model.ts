@@ -26,7 +26,7 @@ export class BaseModel extends Parse.Object {
         }
     }
 
-    public static setExisted<T extends Parse.Object>(object: T, isExisted: boolean, existedCallback: (boolean) => void) {
+    public static setExisted<T extends Parse.Object>(object: T, isExisted: boolean, existedCallback: (arg0: boolean) => void) {
 
         if (!object.existed()) {
             for (const attrKey of Object.keys(object)) {
