@@ -10,14 +10,14 @@ export class RoleService {
 
     public getUserRoles(user: User): Promise<Array<Role>> {
         return new Promise<Array<Role>>((resolve, reject) => {
-          const defaultQuery = new Parse.Query(Role);
-          defaultQuery.equalTo('name', 'default');
-          const specificQuery = new Parse.Query(Role);
-          specificQuery.equalTo('users', Parse.User.current());
-          Parse.Query.or(defaultQuery, specificQuery).find().then(roles => {
-              this.addChildRoles(roles).then(allRoles => resolve(allRoles));
-          }, error => this.errorService.handleParseErrors(error));
-      });
+            const defaultQuery = new Parse.Query(Role);
+            defaultQuery.equalTo('name', 'default');
+            const specificQuery = new Parse.Query(Role);
+            specificQuery.equalTo('users', user);
+            Parse.Query.or(defaultQuery, specificQuery).find().then(roles => {
+                this.addChildRoles(roles).then(allRoles => resolve(allRoles));
+            }, error => this.errorService.handleParseErrors(error));
+        });
     }
 
     private addChildRoles(roleArray: Array<Role>): Promise<Array<Role>> {
