@@ -1,122 +1,77 @@
-import { Account } from '../account';
+import { TransientBaseModel } from './base/transient-base-model';
 import { ChatAccount } from './chat-account';
+import { PartyMember } from './party-member';
 
-export class PartyMemberState {
-    private _ready: boolean;
-    private _hero: string;
-    private _pet: string;
+export class Party extends TransientBaseModel {
+  public static CLASSNAME = 'Party';
+  private _id: string;
+  private _chief: ChatAccount;
+  private _members: Array<PartyMember>;
 
-    /**
-     * Getter ready
-     * @return {boolean}
-     */
-    public get ready(): boolean {
-        return this._ready;
-    }
+  public static create(id: string, chief: PartyMember) {
+    const party = new Party();
+    party.id = id;
+    party.chief = chief.chatAccount;
+    party.members = new Array();
+    party.members.push(chief);
+    return party;
+  }
 
-    /**
-     * Getter hero
-     * @return {string}
-     */
-    public get hero(): string {
-        return this._hero;
-    }
+  constructor() {
+    super(Party.CLASSNAME);
+  }
 
-    /**
-     * Getter pet
-     * @return {string}
-     */
-    public get pet(): string {
-        return this._pet;
-    }
+  public get room(): string {
+    return 'PARTY_' + this.id;
+  }
 
-    /**
-     * Setter ready
-     * @param {boolean} value
-     */
-    public set ready(value: boolean) {
-        this._ready = value;
-    }
+  /**
+   * Getter id
+   * @return {string}
+   */
+  public get id(): string {
+    return this._id;
+  }
 
-    /**
-     * Setter hero
-     * @param {string} value
-     */
-    public set hero(value: string) {
-        this._hero = value;
-    }
+  /**
+   * Getter chief
+   * @return {ChatAccount}
+   */
+  public get chief(): ChatAccount {
+    return this._chief;
+  }
 
-    /**
-     * Setter pet
-     * @param {string} value
-     */
-    public set pet(value: string) {
-        this._pet = value;
-    }
-}
+  /**
+   * Getter members
+   * @return {Array<PartyMember>}
+   */
+  public get members(): Array<PartyMember> {
+    return this._members;
+  }
 
-export class Party {
-    private _id: string;
-    private _chief: ChatAccount;
-    private _memberStateMap: Map<ChatAccount, PartyMemberState>;
+  /**
+   * Setter id
+   * @param {string} value
+   */
+  public set id(value: string) {
+    this._id = value;
+  }
 
-    public constructor(id: string, chief: ChatAccount, state: PartyMemberState) {
-        this.id = id;
-        this.chief = chief;
-        this.memberStateMap = new Map();
-        this.memberStateMap.set(chief, state);
-    }
+  /**
+   * Setter chief
+   * @param {ChatAccount} value
+   */
+  public set chief(value: ChatAccount) {
+    this._chief = value;
+  }
 
-    public get room(): string {
-        return 'PARTY_' + this.id;
-    }
-
-
-    /**
-     * Getter id
-     * @return {string}
-     */
-    public get id(): string {
-        return this.id;
-    }
-
-    /**
-     * Getter chief
-     * @return {ChatAccount}
-     */
-    public get chief(): ChatAccount {
-        return this._chief;
-    }
-
-    /**
-     * Getter memberStateMap
-     * @return {Map<ChatAccount, PartyMemberState>}
-     */
-    public get memberStateMap(): Map<ChatAccount, PartyMemberState> {
-        return this._memberStateMap;
-    }
-
-    /**
-     * Setter id
-     * @param {string} value
-     */
-    public set id(value: string) {
-        this._id = value;
-    }
-    /**
-     * Setter chief
-     * @param {ChatAccount} value
-     */
-    public set chief(value: ChatAccount) {
-        this._chief = value;
-    }
-
-    /**
-     * Setter memberStateMap
-     * @param {Map<ChatAccount, PartyMemberState>} value
-     */
-    public set memberStateMap(value: Map<ChatAccount, PartyMemberState>) {
-        this._memberStateMap = value;
-    }
+  /**
+   * Setter members
+   * @param {Array<PartyMember>} value
+   */
+  public set members(value: Array<PartyMember>) {
+    this._members = value;
+  }
 
 }
+TransientBaseModel.registerClass(Party, Party.CLASSNAME);
