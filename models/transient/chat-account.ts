@@ -1,11 +1,18 @@
 import { Account } from '../account';
 import { TransientBaseModel } from './base/transient-base-model';
 
+export enum EChatAccountState {
+  IDLE,
+  QUEUE,
+  INGAME
+}
+
 export class ChatAccount extends TransientBaseModel {
   public static CLASSNAME = 'ChatAccount';
   private _id: string;
   private _name: string;
   private _patreon: boolean;
+  private _state: EChatAccountState;
 
   public constructor(account?: Account) {
     super(ChatAccount.CLASSNAME);
@@ -13,6 +20,7 @@ export class ChatAccount extends TransientBaseModel {
       this.id = account.id;
       this.name = account.name;
       this.patreon = account.patreon;
+      this.state = EChatAccountState.IDLE;
     }
   }
   /**
@@ -61,6 +69,22 @@ export class ChatAccount extends TransientBaseModel {
    */
   public set patreon(value: boolean) {
     this._patreon = value;
+  }
+
+  /**
+   * Getter state
+   * @return {EChatAccountState}
+   */
+  public get state(): EChatAccountState {
+    return this._state;
+  }
+
+  /**
+   * Setter state
+   * @param {EChatAccountState} value
+   */
+  public set state(value: EChatAccountState) {
+    this._state = value;
   }
 
 
