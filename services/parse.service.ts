@@ -82,7 +82,9 @@ export class ParseService {
         Parse.initialize(environment.PARSE_APP_ID, environment.PARSE_JS_KEY, environment.PARSE_MASTER_KEY);
         // @ts-ignore
         (Parse as any).Parse.serverURL = environment.PARSE_URL;
-        Parse.Cloud.useMasterKey();
+        if (environment.PARSE_MASTER_KEY) {
+          Parse.Cloud.useMasterKey();
+        }
       }
     }
   }
