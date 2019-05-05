@@ -27,6 +27,7 @@ export enum EHeroEnum {
   NIKOLAI,
   PAL,
   RAY,
+  RIP,
   ROOK,
   SHANK,
   TRACE,
@@ -65,6 +66,7 @@ export const HeroEnumText = new Map<EHeroEnum, string>()
   .set(EHeroEnum.NIKOLAI, 'Nikolai')
   .set(EHeroEnum.PAL, 'Pal')
   .set(EHeroEnum.RAY, 'Ray')
+  .set(EHeroEnum.RAY, 'Rip')
   .set(EHeroEnum.ROOK, 'Rook')
   .set(EHeroEnum.SHANK, 'Shank')
   .set(EHeroEnum.TRACE, 'Trace')
@@ -102,6 +104,7 @@ export const HeroEnumGameName = new Map<EHeroEnum, string>()
   .set(EHeroEnum.NIKOLAI, 'Hero_Nikolai')
   .set(EHeroEnum.PAL, 'Hero_Pal')
   .set(EHeroEnum.RAY, 'Hero_Ray')
+  .set(EHeroEnum.RIP, 'Hero_Rip')
   .set(EHeroEnum.ROOK, 'Hero_Rook')
   .set(EHeroEnum.SHANK, 'Hero_Shank')
   .set(EHeroEnum.TRACE, 'Hero_Trace')
