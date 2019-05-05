@@ -1,5 +1,5 @@
-import { ChatAccount } from 'app/data/models';
-import { EHeroEnum } from './game.enums';
+import { ChatAccount, EPetEnum } from 'app/data/models';
+import { EHeroEnum } from './hero.enums';
 import { TransientBaseModel } from './base/transient-base-model';
 
 export class PartyMember extends TransientBaseModel {
@@ -7,10 +7,10 @@ export class PartyMember extends TransientBaseModel {
 
   private _ready: boolean;
   private _hero: EHeroEnum;
-  private _pet: string;
+  private _pet: EPetEnum;
   private _chatAccount: ChatAccount;
 
-  public static create(hero: EHeroEnum, pet: string = '') {
+  public static create(hero: EHeroEnum, pet: EPetEnum) {
     const partyMember = new PartyMember();
     partyMember.ready = false;
     partyMember.hero = hero;
@@ -21,6 +21,7 @@ export class PartyMember extends TransientBaseModel {
   constructor() {
     super(PartyMember.CLASSNAME);
   }
+
 
   /**
    * Getter ready
@@ -40,9 +41,9 @@ export class PartyMember extends TransientBaseModel {
 
   /**
    * Getter pet
-   * @return {string}
+   * @return {EPetEnum}
    */
-  public get pet(): string {
+  public get pet(): EPetEnum {
     return this._pet;
   }
 
@@ -72,9 +73,9 @@ export class PartyMember extends TransientBaseModel {
 
   /**
    * Setter pet
-   * @param {string} value
+   * @param {EPetEnum} value
    */
-  public set pet(value: string) {
+  public set pet(value: EPetEnum) {
     this._pet = value;
   }
 
@@ -85,7 +86,5 @@ export class PartyMember extends TransientBaseModel {
   public set chatAccount(value: ChatAccount) {
     this._chatAccount = value;
   }
-
-
 }
 TransientBaseModel.registerClass(PartyMember, PartyMember.CLASSNAME);
