@@ -49,7 +49,7 @@ export class ChatAccount extends TransientBaseModel {
     if (this.state === EChatAccountState.QUEUE) {
       return 'search';
     } else if (this.state === EChatAccountState.PREPARING_MATCH) {
-      return 'spinner';
+      return 'ellipsis-h';
     } else if (this.state === EChatAccountState.INGAME) {
       return 'gamepad';
     } else {
