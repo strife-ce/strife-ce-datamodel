@@ -1,10 +1,16 @@
 import { BaseModel, Parse } from './base';
 
+export enum EAccountFlags {
+  NONE = 0,
+  PATREON_L1 = 1 << 0,
+  PATREON_L2 = 1 << 1,
+}
+
 export class Account extends BaseModel {
   public static PARSE_CLASSNAME = 'Account';
 
   private _name: string;
-  private _patreon: boolean;
+  private _flags: EAccountFlags;
 
   constructor() {
     super(Account.PARSE_CLASSNAME);
@@ -18,23 +24,21 @@ export class Account extends BaseModel {
     this._name = value;
   }
 
-
   /**
-   * Getter patreon
-   * @return {boolean}
+   * Getter flags
+   * @return {EAccountFlags}
    */
-  public get patreon(): boolean {
-    return this._patreon;
+  public get flags(): EAccountFlags {
+    return this._flags;
   }
 
   /**
-   * Setter patreon
-   * @param {boolean} value
+   * Setter flags
+   * @param {EAccountFlags} value
    */
-  public set patreon(value: boolean) {
-    this._patreon = value;
+  public set flags(value: EAccountFlags) {
+    this._flags = value;
   }
-
 }
 
 BaseModel.registerClass(Account, Account.PARSE_CLASSNAME);

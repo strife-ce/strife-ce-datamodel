@@ -1,28 +1,39 @@
-import { Account } from '../account';
+import { Account, EAccountFlags } from '../account';
 import { TransientBaseModel } from './base/transient-base-model';
 
 export enum EChatAccountState {
-  IDLE,
-  QUEUE,
-  INGAME
+  IDLE = 0,
+  QUEUE = 1 << 0,
+  INGAME = 1 << 1,
 }
 
 export class ChatAccount extends TransientBaseModel {
   public static CLASSNAME = 'ChatAccount';
   private _id: string;
   private _name: string;
-  private _patreon: boolean;
   private _state: EChatAccountState;
+  private _flags: EAccountFlags;
 
   public constructor(account?: Account) {
     super(ChatAccount.CLASSNAME);
     if (account) {
       this.id = account.id;
       this.name = account.name;
-      this.patreon = account.patreon;
+      this.flags = account.flags;
       this.state = EChatAccountState.IDLE;
     }
   }
+
+  public get icon() {
+    if (this.hasFlag(EAccountFlags.PATREON_L1)) {
+      return 'patreon1';
+    } else if (this.hasFlag(EAccountFlags.PATREON_L2)) {
+      return 'patreon2';
+    } else {
+      return null;
+    }
+  }
+
   /**
    * Getter id
    * @return {string}
@@ -55,21 +66,35 @@ export class ChatAccount extends TransientBaseModel {
     this._name = value;
   }
 
+  public hasFlag(flag: EAccountFlags, flag2?: EAccountFlags, flag3?: EAccountFlags): boolean {
+    return ((this._flags & flag) > 0 || (this._flags & flag2) > 0 || (this._flags & flag3) > 0);
+  }
+
+  public setFlag(flag: EAccountFlags) {
+    this._flags = this._flags | flag;
+  }
+
+  public unsetFlag(flag: EAccountFlags) {
+    this._flags = this._flags & ~flag;
+  }
+
+
   /**
-   * Getter patreon
-   * @return {boolean}
+   * Getter flags
+   * @return {EAccountFlags}
    */
-  public get patreon(): boolean {
-    return this._patreon;
+  public get flags(): EAccountFlags {
+    return this._flags;
   }
 
   /**
-   * Setter patreon
-   * @param {boolean} value
+   * Setter flags
+   * @param {EAccountFlags} value
    */
-  public set patreon(value: boolean) {
-    this._patreon = value;
+  public set flags(value: EAccountFlags) {
+    this._flags = value;
   }
+
 
   /**
    * Getter state
