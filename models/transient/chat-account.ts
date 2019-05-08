@@ -4,7 +4,8 @@ import { TransientBaseModel } from './base/transient-base-model';
 export enum EChatAccountState {
   IDLE = 0,
   QUEUE = 1 << 0,
-  INGAME = 1 << 1,
+  PREPARING_MATCH = 1 << 1,
+  INGAME = 1 << 2,
 }
 
 export class ChatAccount extends TransientBaseModel {
@@ -29,6 +30,28 @@ export class ChatAccount extends TransientBaseModel {
       return 'patreon1';
     } else if (this.hasFlag(EAccountFlags.PATREON_L2)) {
       return 'patreon2';
+    } else {
+      return null;
+    }
+  }
+
+  public get iconTooltip() {
+    if (this.hasFlag(EAccountFlags.PATREON_L1)) {
+      return this.name + ' is a Patreon Supporter';
+    } else if (this.hasFlag(EAccountFlags.PATREON_L2)) {
+      return this.name + ' is a GRAND Patreon Supporter';
+    } else {
+      return null;
+    }
+  }
+
+  public get stateIcon() {
+    if (this.state === EChatAccountState.QUEUE) {
+      return 'search';
+    } else if (this.state === EChatAccountState.PREPARING_MATCH) {
+      return 'spinner';
+    } else if (this.state === EChatAccountState.INGAME) {
+      return 'gamepad';
     } else {
       return null;
     }
