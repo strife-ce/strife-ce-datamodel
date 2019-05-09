@@ -12,7 +12,7 @@ export class AccountService extends BaseModelService<Account> {
         return new Promise<Account>((resolve, reject) => {
             const query = new Parse.Query(Parse.User);
             query.equalTo('objectId', Parse.User.current().id);
-            query.include('user.account');
+            query.include('account');
             query.first().then(user => resolve(user.get('account')), error => this.errorService.handleParseErrors(error));
         });
     }
