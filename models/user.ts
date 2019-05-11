@@ -55,6 +55,10 @@ export class User extends Parse.User {
     this._account = value;
   }
 
+  public get settings(): { [index: string]: any } {
+    return this._settings;
+  }
+
   public save(): Parse.Promise<this> {
     return BaseModel.save(this, super.save);
   }
