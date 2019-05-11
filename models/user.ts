@@ -20,7 +20,7 @@ export class User extends Parse.User {
   constructor() {
     super(User.PARSE_CLASSNAME);
     this._settings = {};
-    this.setSetting(EUserSettingEnum.CHAT_MUTE, false, true);
+    this.setSetting(EUserSettingEnum.CHAT_MUTE, false);
   }
 
   public get id(): string {
