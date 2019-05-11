@@ -1,4 +1,4 @@
-import { ErrorService, ParseService } from '../../services';
+import { ErrorService, ParseService, Parse } from '../services';
 import { User } from '../models';
 import { BaseModelService } from './base/base-modelservice';
 
@@ -7,6 +7,14 @@ export class UserService extends BaseModelService<User> {
     constructor(errorService: ErrorService, parseService: ParseService) {
         super(errorService, parseService, User);
     }
+
+    public getCurrentUser() {
+      return new Promise<User>((resolve, reject) => {
+          const query = new Parse.Query(User);
+          query.equalTo('objectId', Parse.User.current().id);
+          query.first().then(user => resolve(user), error => this.errorService.handleParseErrors(error));
+      });
+  }
 
     public getBySessionToken(sessionToken: string) {
         return new Promise<User>((resolve, reject) => {

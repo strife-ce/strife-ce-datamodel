@@ -2,7 +2,10 @@ import { BaseModel, Parse } from './base';
 import { Account } from './account';
 
 export enum EUserSettingEnum {
-  CHAT_MUTE = 'CHAT_MUTE'
+  CHAT_MUTE = 'CHAT_MUTE',
+  LAST_HERO_SELECTION = 'LAST_HERO_SELECTION',
+  LAST_PET_SELECTION = 'LAST_PET_SELECTION',
+  LAST_GAMEMODE_SELECTION = 'LAST_GAMEMODE_SELECTION',
 }
 
 export class User extends Parse.User {
