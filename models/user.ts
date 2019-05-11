@@ -1,6 +1,10 @@
 import { BaseModel, Parse } from './base';
 import { Account } from './account';
 
+export enum EUserSettingEnum {
+  CHAT_MUTE = 'CHAT_MUTE'
+}
+
 export class User extends Parse.User {
   public static PARSE_CLASSNAME = '_User';
 
@@ -8,8 +12,12 @@ export class User extends Parse.User {
   private _email: string;
   private _username: string;
   private _account: Account;
+  private _settings: { [index: string]: any };
+
   constructor() {
     super(User.PARSE_CLASSNAME);
+    this._settings = {};
+    this.setSetting(EUserSettingEnum.CHAT_MUTE, false, true);
   }
 
   public get id(): string {
@@ -51,6 +59,26 @@ export class User extends Parse.User {
   private _setExisted(isExisted: boolean) {
     BaseModel.setExisted(this, isExisted, super['_setExisted']);
   }
+
+  public setSetting(key: EUserSettingEnum, value: any, save = false) {
+    if (!this._settings) {
+      this._settings = {};
+    }
+    this._settings[String(key)] = value;
+    if (save) {
+      this.save();
+    }
+  }
+
+  public getSetting<T>(key: EUserSettingEnum, defaultValue: T): T {
+    if (!this._settings) {
+      this._settings = {};
+    }
+
+    const value = this._settings[String(key)];
+    return ((value !== undefined) ? value : defaultValue) as T;
+  }
+
 }
 
 BaseModel.registerClass(User, User.PARSE_CLASSNAME);
