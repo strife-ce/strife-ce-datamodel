@@ -2,6 +2,11 @@ import { TransientBaseModel } from './base/transient-base-model';
 import { ChatAccount } from './chat-account';
 import { PartyMember } from './party-member';
 
+export enum EPartyState {
+  IDLE,
+  SEARCHING
+}
+
 export enum EGameMode {
   MODE_1ON1 = 1,
   MODE_2ON2 = 2,
@@ -13,6 +18,7 @@ export enum EGameMode {
 export class Party extends TransientBaseModel {
   public static CLASSNAME = 'Party';
   private _id: string;
+  private _state: EPartyState;
   private _chief: ChatAccount;
   private _members: Array<PartyMember>;
   private _gamemodes: number;
@@ -24,6 +30,7 @@ export class Party extends TransientBaseModel {
     party.members = new Array();
     party.members.push(chief);
     party.gamemodes = gamemodes;
+    party.state = EPartyState.IDLE;
     return party;
   }
 
@@ -97,6 +104,22 @@ export class Party extends TransientBaseModel {
    */
   public set gamemodes(value: number) {
     this._gamemodes = value;
+  }
+
+  /**
+   * Getter state
+   * @return {EPartyState}
+   */
+  public get state(): EPartyState {
+    return this._state;
+  }
+
+  /**
+   * Setter state
+   * @param {EPartyState} value
+   */
+  public set state(value: EPartyState) {
+    this._state = value;
   }
 }
 TransientBaseModel.registerClass(Party, Party.CLASSNAME);
