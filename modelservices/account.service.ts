@@ -17,4 +17,13 @@ export class AccountService extends BaseModelService<Account> {
         });
     }
 
+    public getLatestPatrons(count: number) {
+        return new Promise<Array<Account>>((resolve, reject) => {
+            const query = this.createQuery();
+            query.exists('patreonSince');
+            query.descending('patreonSince');
+            query.limit(count);
+            query.find().then(accounts => resolve(accounts), error => this.errorService.handleParseErrors(error));
+        });
+    }
 }
