@@ -1,4 +1,5 @@
 export enum EPetEnum {
+  RANDOM,
   BOUNDER,
   FIKI,
   GANKER,
@@ -14,6 +15,7 @@ export enum EPetEnum {
 }
 
 export const PetEnumText = new Map<EPetEnum, string>()
+  .set(EPetEnum.RANDOM, 'Random')
   .set(EPetEnum.BOUNDER, 'Bounder')
   .set(EPetEnum.FIKI, 'Fiki')
   .set(EPetEnum.GANKER, 'Fitz')
