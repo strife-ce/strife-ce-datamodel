@@ -1,5 +1,6 @@
-import { ChatAccount, EPetEnum } from 'app/data/models';
+import { ChatAccount } from './chat-account';
 import { EHeroEnum } from './hero.enums';
+import { EPetEnum } from './pet.enums';
 import { TransientBaseModel } from './base/transient-base-model';
 
 export enum EPartyMemberState {

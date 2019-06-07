@@ -4,7 +4,7 @@ export enum EHeroEnum {
   AEMON,
   BANDITO,
   BASTION,
-  // BLAZER,
+  BLAZER,
   BO,
   BUFORD,
   CAPRICE,
@@ -44,7 +44,7 @@ export const HeroEnumText = new Map<EHeroEnum, string>()
 .set(EHeroEnum.AEMON, 'Aemon')
 .set(EHeroEnum.BANDITO, 'Bandito')
   .set(EHeroEnum.BASTION, 'Bastion')
-  // .set(EHeroEnum.BLAZER, 'Blazer')
+  .set(EHeroEnum.BLAZER, 'Blazer')
   .set(EHeroEnum.BO, 'Bo')
   .set(EHeroEnum.BUFORD, 'Buford')
   .set(EHeroEnum.CAPRICE, 'Caprice')
@@ -82,7 +82,7 @@ export const HeroEnumGameName = new Map<EHeroEnum, string>()
   .set(EHeroEnum.AEMON, 'Hero_Aemon')
   .set(EHeroEnum.BANDITO, 'Hero_Bandito')
   .set(EHeroEnum.BASTION, 'Hero_Bastion')
-  // .set(EHeroEnum.BLAZER, 'Hero_Blazer')
+  .set(EHeroEnum.BLAZER, 'Hero_Blazer')
   .set(EHeroEnum.BO, 'Hero_Bo')
   .set(EHeroEnum.BUFORD, 'Hero_Buford')
   .set(EHeroEnum.CAPRICE, 'Hero_Caprice')
