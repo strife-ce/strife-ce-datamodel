@@ -1,7 +1,9 @@
 import { ErrorService, ParseService, Parse } from '../services';
 import { User } from '../models';
 import { BaseModelService } from './base/base-modelservice';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class UserService extends BaseModelService<User> {
 
     constructor(errorService: ErrorService, parseService: ParseService) {

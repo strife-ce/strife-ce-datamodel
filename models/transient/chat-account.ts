@@ -3,9 +3,10 @@ import { TransientBaseModel } from './base/transient-base-model';
 
 export enum EChatAccountState {
   IDLE = 0,
-  QUEUE = 1 << 0,
-  PREPARING_MATCH = 1 << 1,
-  INGAME = 1 << 2,
+  PARTYING = 1 << 0,
+  QUEUE = 1 << 1,
+  PREPARING_MATCH = 1 << 2,
+  INGAME = 1 << 3,
 }
 
 export class ChatAccount extends TransientBaseModel {
@@ -55,6 +56,10 @@ export class ChatAccount extends TransientBaseModel {
     } else {
       return null;
     }
+  }
+
+  public get canReceivePartyInvite() {
+    return (this.state == EChatAccountState.IDLE);
   }
 
   /**
