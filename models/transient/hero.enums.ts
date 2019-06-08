@@ -1,4 +1,5 @@
 export enum EHeroEnum {
+  NO_HERO,
   RANDOM,
   ACE,
   AEMON,
@@ -39,6 +40,7 @@ export enum EHeroEnum {
 }
 
 export const HeroEnumText = new Map<EHeroEnum, string>()
+.set(EHeroEnum.NO_HERO, 'No hero selected')
 .set(EHeroEnum.RANDOM, 'Random')
 .set(EHeroEnum.ACE, 'Ace')
 .set(EHeroEnum.AEMON, 'Aemon')
