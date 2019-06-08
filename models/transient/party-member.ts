@@ -4,7 +4,7 @@ import { EPetEnum } from './pet.enums';
 import { TransientBaseModel } from './base/transient-base-model';
 
 export enum EPartyMemberState {
-  DEFAULT,
+  NORMAL,
   INVITE_PENDING,
   READY
 }
@@ -19,7 +19,7 @@ export class PartyMember extends TransientBaseModel {
 
   public static create(hero: EHeroEnum, pet: EPetEnum) {
     const partyMember = new PartyMember();
-    partyMember.state = EPartyMemberState.DEFAULT;
+    partyMember.state = EPartyMemberState.NORMAL;
     partyMember.hero = hero;
     partyMember.pet = pet;
     return partyMember;
