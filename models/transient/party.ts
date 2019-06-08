@@ -15,6 +15,13 @@ export enum EGameMode {
   MODE_5ON5 = 16,
 }
 
+export const GamemodeTeamSize = new Map<EGameMode, number>()
+.set(EGameMode.MODE_1ON1, 1)
+.set(EGameMode.MODE_2ON2, 2)
+.set(EGameMode.MODE_3ON3, 3)
+.set(EGameMode.MODE_4ON4, 4)
+.set(EGameMode.MODE_5ON5, 5);
+
 export class Party extends TransientBaseModel {
   public static CLASSNAME = 'Party';
   private _id: string;

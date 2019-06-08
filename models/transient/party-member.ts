@@ -4,9 +4,8 @@ import { EPetEnum } from './pet.enums';
 import { TransientBaseModel } from './base/transient-base-model';
 
 export enum EPartyMemberState {
-  INITIAL,
+  NORMAL,
   INVITE_PENDING,
-  INVITE_ACCEPTED,
   READY
 }
 
@@ -20,7 +19,7 @@ export class PartyMember extends TransientBaseModel {
 
   public static create(hero: EHeroEnum, pet: EPetEnum) {
     const partyMember = new PartyMember();
-    partyMember.state= EPartyMemberState.INITIAL;
+    partyMember.state = EPartyMemberState.NORMAL;
     partyMember.hero = hero;
     partyMember.pet = pet;
     return partyMember;
@@ -28,9 +27,9 @@ export class PartyMember extends TransientBaseModel {
 
   public static createForInvite(chatAccount: ChatAccount) {
     const partyMember = new PartyMember();
-    partyMember.state= EPartyMemberState.INVITE_PENDING;
-    partyMember.hero = EHeroEnum.RANDOM;
-    partyMember.pet = EPetEnum.RANDOM;
+    partyMember.state = EPartyMemberState.INVITE_PENDING;
+    partyMember.hero = EHeroEnum.NO_HERO;
+    partyMember.pet = EPetEnum.NO_PET;
     partyMember.chatAccount = chatAccount;
     return partyMember;
   }
@@ -40,21 +39,21 @@ export class PartyMember extends TransientBaseModel {
   }
 
 
-    /**
-     * Getter state
-     * @return {EPartyMemberState}
-     */
-	public get state(): EPartyMemberState {
-		return this._state;
-	}
+  /**
+   * Getter state
+   * @return {EPartyMemberState}
+   */
+  public get state(): EPartyMemberState {
+    return this._state;
+  }
 
-    /**
-     * Setter state
-     * @param {EPartyMemberState} value
-     */
-	public set state(value: EPartyMemberState) {
-		this._state = value;
-	}
+  /**
+   * Setter state
+   * @param {EPartyMemberState} value
+   */
+  public set state(value: EPartyMemberState) {
+    this._state = value;
+  }
 
   /**
    * Getter hero
