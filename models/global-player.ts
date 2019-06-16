@@ -1,19 +1,24 @@
 import { Account } from './account';
 import { BaseModel, Parse } from './base';
-import { GlobalPlayerRestriction, ERestrictionType } from './restriction';
+import { GlobalPlayerRestriction, ERestrictionType } from './global-player-restriction';
 
 export class GlobalPlayer extends BaseModel {
     public static PARSE_CLASSNAME = 'GlobalPlayer';
 
     private _accounts: Array<Account>;
     private _tokens: Array<String>;
-    private _restrictions: Array<GlobalPlayerRestriction>;
+    private _chatRestriction: GlobalPlayerRestriction;
+    private _matchRestriction: GlobalPlayerRestriction;
 
-    constructor() {
+    public static create() {
+        const object = new this();
+        object.accounts = new Array();
+        object.tokens = new Array();
+        return object;
+    }
+
+    public constructor() {
         super(GlobalPlayer.PARSE_CLASSNAME);
-        this.accounts = new Array();
-        this.tokens = new Array();
-        this.restrictions = new Array();
     }
 
     /**
@@ -49,55 +54,37 @@ export class GlobalPlayer extends BaseModel {
     }
 
     /**
-     * Getter recentChatRestriction
+     * Getter chatRestriction
      * @return {GlobalPlayerRestriction}
      */
-    public get currentChatRestriction(): GlobalPlayerRestriction {
-        const now = new Date();
-
-        return this.restrictions.find(restriction => {
-            console.log('################');
-            console.log(restriction);
-
-            console.warn(now);
-            console.warn(restriction.from);
-            console.warn(now >= restriction.from);
-            console.warn(now <= restriction.to);
-            return (restriction.type == ERestrictionType.CHAT && now >= restriction.from && now <= restriction.to);
-        });
+    public get chatRestriction(): GlobalPlayerRestriction {
+        return this._chatRestriction;
     }
 
     /**
-     * Getter recentChatRestriction
+     * Getter matchRestriction
      * @return {GlobalPlayerRestriction}
      */
-    public get currentMatchRestriction(): GlobalPlayerRestriction {
-        const now = new Date();
-
-        return this.restrictions.find(restriction => {
-            console.log('################');
-            console.log(restriction);
-            console.warn(now + ' ' + restriction.from + ' | ' + (now >= restriction.from));
-
-            return (restriction.type == ERestrictionType.MATCH && now >= restriction.from && now <= restriction.to);
-        });
+    public get matchRestriction(): GlobalPlayerRestriction {
+        return this._matchRestriction;
     }
 
     /**
-     * Getter restrictions
-     * @return {Array<GlobalPlayerRestriction>}
+     * Setter chatRestriction
+     * @param {GlobalPlayerRestriction} value
      */
-    public get restrictions(): Array<GlobalPlayerRestriction> {
-        return this._restrictions;
+    public set chatRestriction(value: GlobalPlayerRestriction) {
+        this._chatRestriction = value;
     }
 
     /**
-     * Setter restrictions
-     * @param {Array<GlobalPlayerRestriction>} value
+     * Setter matchRestriction
+     * @param {GlobalPlayerRestriction} value
      */
-    public set restrictions(value: Array<GlobalPlayerRestriction>) {
-        this._restrictions = value;
+    public set matchRestriction(value: GlobalPlayerRestriction) {
+        this._matchRestriction = value;
     }
+
 
 }
 

@@ -29,7 +29,7 @@ export class BaseModel extends Parse.Object {
 
     public static setExisted<T extends Parse.Object>(object: T, isExisted: boolean, existedCallback: (arg0: boolean) => void) {
 
-        if (object.id /*!object.existed()*/) {
+        if (!object.existed()) {
             for (const attrKey of Object.keys(object)) {
                 if (attrKey[0] === '_' && attrKey !== '_objCount' && attrKey !== '_id') {
                     delete object[attrKey];

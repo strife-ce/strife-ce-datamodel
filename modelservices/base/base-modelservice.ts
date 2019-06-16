@@ -7,36 +7,62 @@ export class BaseModelService<T extends Parse.Object> {
     constructor(protected errorService: ErrorService, protected parseService: ParseService, protected modelConstructor: new () => T) {
     }
 
-    public get() {
+    public get(includes?:  Array<keyof T>) {
         return new Promise<T[]>((resolve, reject) => {
-            const query = this.createQuery();
+            const query = this.createQuery(includes);
             query.find().then(objectList => resolve(objectList), error => this.errorService.handleParseErrors(error));
         });
     }
 
-    public getById(objectId: string) {
-        return this.getFirstByAttribute('objectId', objectId);
+    public getById(objectId: string, includes?: Array<keyof T>) {
+        return this.getFirstByAttribute('objectId', objectId, includes);
     }
 
-    public getByAttribute(attribute: string, value: any) {
+    public getByAttribute(attribute: string, value: any, includes?: Array<keyof T>) {
         return new Promise<T[]>((resolve, reject) => {
-            const query = this.createQuery();
+            const query = this.createQuery(includes);
             query.equalTo(attribute, value);
             query.limit(99999999);
             query.find().then(objectList => resolve(objectList), error => this.errorService.handleParseErrors(error));
         });
     }
 
-    public getFirstByAttribute(attribute: string, value: any) {
+    public getFirstByAttribute(attribute: string, value: any, includes?: Array<keyof T>) {
         return new Promise<T>((resolve, reject) => {
-            const query = this.createQuery();
+            const query = this.createQuery(includes);
             query.equalTo(attribute, value);
             query.first().then(object => resolve(object), error => this.errorService.handleParseErrors(error));
         });
     }
 
-    protected createQuery(): Parse.Query<T> {
-        return new Parse.Query<T>(this.modelConstructor);
+    public createQuery(includes?:  Array<keyof T>): Parse.Query<T> {
+        const query = new Parse.Query<T>(this.modelConstructor);
+        if (ParseService.isParseServer()) {
+            query['_find'] = query.find;
+            query['_first'] = query.first;
+            query.find = (options?: Parse.Query.FindOptions): Parse.Promise<T[]> => {
+                options = options || {};
+                if (options.useMasterKey === undefined) {
+                    options.useMasterKey = true;
+                }
+                return query['_find'](options);
+            };
+            query.first = (options?: Parse.Query.FindOptions): Parse.Promise<T> => {
+                options = options || {};
+                if (options.useMasterKey === undefined) {
+                    options.useMasterKey = true;
+                }
+                return query['_first'](options);
+            };
+        }
+
+        if (includes) {
+            for (const include of includes) {
+                query.include(include.toString());
+            }
+        }
+
+        return query;
     }
 
     protected applyPageInfo(query: Parse.Query<T>, pageInfo: PageInfo, filterCallback?: FilterCallback): Parse.Query<T> {

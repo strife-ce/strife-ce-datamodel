@@ -24,6 +24,8 @@ export class UserService extends BaseModelService<User> {
             query.equalTo('sessionToken', sessionToken);
             query.include('user.account');
             query.include('user.account.globalPlayer');
+            query.include('user.account.globalPlayer.chatRestriction');
+            query.include('user.account.globalPlayer.matchRestriction');
             query.first({ useMasterKey: true }).then(session => resolve(session.get('user')), error => this.errorService.handleParseErrors(error));
         });
     }
