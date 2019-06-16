@@ -11,15 +11,17 @@ export class GlobalPlayerRestriction extends BaseModel {
   public static PARSE_CLASSNAME = 'GlobalPlayerRestriction';
 
   private _createdBy: Account;
+  private _targetAccount: Account;
   private _explanation: string;
   private _type: ERestrictionType;
   private _from: Date;
   private _to: Date;
 
 
-  constructor(createdBy: Account, explanation: string, type: ERestrictionType, from: Date, to: Date | number) {
+  constructor(createdBy: Account, targetAccount: Account, explanation: string, type: ERestrictionType, from: Date, to: Date | number) {
     super(GlobalPlayerRestriction.PARSE_CLASSNAME);
     this.createdBy = createdBy;
+    this.targetAccount = targetAccount;
     this.explanation = explanation;
     this.type = type;
     this.from = from;
@@ -30,6 +32,23 @@ export class GlobalPlayerRestriction extends BaseModel {
       this.to = new Date(from.getTime() + to * 3600000);
     }
   }
+
+  /**
+   * Getter targetAccount
+   * @return {Account}
+   */
+  public get targetAccount(): Account {
+    return this._targetAccount;
+  }
+
+  /**
+   * Setter targetAccount
+   * @param {Account} value
+   */
+  public set targetAccount(value: Account) {
+    this._targetAccount = value;
+  }
+
 
   /**
    * Getter createdBy
