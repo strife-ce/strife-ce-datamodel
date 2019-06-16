@@ -7,18 +7,18 @@ export class BaseModelService<T extends Parse.Object> {
     constructor(protected errorService: ErrorService, protected parseService: ParseService, protected modelConstructor: new () => T) {
     }
 
-    public get(includes?: [keyof T]) {
+    public get(includes?:  Array<keyof T>) {
         return new Promise<T[]>((resolve, reject) => {
             const query = this.createQuery(includes);
             query.find().then(objectList => resolve(objectList), error => this.errorService.handleParseErrors(error));
         });
     }
 
-    public getById(objectId: string, includes?: [keyof T]) {
+    public getById(objectId: string, includes?: Array<keyof T>) {
         return this.getFirstByAttribute('objectId', objectId, includes);
     }
 
-    public getByAttribute(attribute: string, value: any, includes?: [keyof T]) {
+    public getByAttribute(attribute: string, value: any, includes?: Array<keyof T>) {
         return new Promise<T[]>((resolve, reject) => {
             const query = this.createQuery(includes);
             query.equalTo(attribute, value);
@@ -27,7 +27,7 @@ export class BaseModelService<T extends Parse.Object> {
         });
     }
 
-    public getFirstByAttribute(attribute: string, value: any, includes?: [keyof T]) {
+    public getFirstByAttribute(attribute: string, value: any, includes?: Array<keyof T>) {
         return new Promise<T>((resolve, reject) => {
             const query = this.createQuery(includes);
             query.equalTo(attribute, value);
@@ -35,7 +35,7 @@ export class BaseModelService<T extends Parse.Object> {
         });
     }
 
-    public createQuery(includes?: [keyof T]): Parse.Query<T> {
+    public createQuery(includes?:  Array<keyof T>): Parse.Query<T> {
         const query = new Parse.Query<T>(this.modelConstructor);
         if (ParseService.isParseServer()) {
             query['_find'] = query.find;

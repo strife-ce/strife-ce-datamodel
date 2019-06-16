@@ -29,10 +29,27 @@ export class AccountService extends BaseModelService<Account> {
     });
   }
 
-  public getAccountsByName(accountName: string, includes?: [keyof Account]) {
+  public getAccountsByName(accountName: string, includes?: Array<keyof Account>, uncheckedIncludes?: Array<string>) {
     return new Promise<Array<Account>>((resolve, reject) => {
       const query = this.createQuery(includes);
+      for (const inc of uncheckedIncludes) {
+        query.include(inc);
+      }
       query.matches('name', new RegExp(accountName), 'i');
+      query.exists('globalPlayer');
+      query.find().then(accounts => resolve(accounts), error => this.errorService.handleParseErrors(error));
+    });
+  }
+
+  public getLastLoggedIn(limit: number, includes?: Array<keyof Account>, uncheckedIncludes?: Array<string>) {
+    return new Promise<Array<Account>>((resolve, reject) => {
+      const query = this.createQuery(includes);
+      for (const inc of uncheckedIncludes) {
+        query.include(inc);
+      }
+      query.exists('lastLogin');
+      query.descending('lastLogin');
+      query.limit(limit);
       query.find().then(accounts => resolve(accounts), error => this.errorService.handleParseErrors(error));
     });
   }

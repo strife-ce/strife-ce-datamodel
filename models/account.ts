@@ -5,6 +5,7 @@ export enum EAccountFlags {
   NONE = 0,
   PATREON_L1 = 1 << 0,
   PATREON_L2 = 1 << 1,
+  MODERATOR = 1 << 2,
 }
 
 export class Account extends BaseModel {
@@ -13,6 +14,7 @@ export class Account extends BaseModel {
   private _name: string;
   private _flags: EAccountFlags;
   private _globalPlayer: GlobalPlayer;
+  private _lastLogin: Date;
 
   constructor() {
     super(Account.PARSE_CLASSNAME);
@@ -56,6 +58,23 @@ export class Account extends BaseModel {
    */
   public set globalPlayer(value: GlobalPlayer) {
     this._globalPlayer = value;
+  }
+
+
+  /**
+   * Getter lastLogin
+   * @return {Date}
+   */
+  public get lastLogin(): Date {
+    return this._lastLogin;
+  }
+
+  /**
+   * Setter lastLogin
+   * @param {Date} value
+   */
+  public set lastLogin(value: Date) {
+    this._lastLogin = value;
   }
 
 }

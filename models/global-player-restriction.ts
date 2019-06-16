@@ -1,114 +1,137 @@
 import { Account } from './account';
 import { BaseModel } from './base';
+import moment = require('moment');
 
 export enum ERestrictionType {
-    CHAT,
-    MATCH,
+  CHAT,
+  MATCH,
 }
 
 export class GlobalPlayerRestriction extends BaseModel {
-    public static PARSE_CLASSNAME = 'GlobalPlayerRestriction';
+  public static PARSE_CLASSNAME = 'GlobalPlayerRestriction';
 
-    private _createdBy: Account;
-    private _explanation: string;
-    private _type: ERestrictionType;
-    private _from: Date;
-    private _to: Date;
+  private _createdBy: Account;
+  private _targetAccount: Account;
+  private _explanation: string;
+  private _type: ERestrictionType;
+  private _from: Date;
+  private _to: Date;
 
 
-    constructor(createdBy: Account, explanation: string, type: ERestrictionType, from: Date, to: Date | number) {
-        super(GlobalPlayerRestriction.PARSE_CLASSNAME);
-        this.createdBy = createdBy;
-        this.explanation = explanation;
-        this.type = type;
-        this.from = from;
+  constructor(createdBy: Account, targetAccount: Account, explanation: string, type: ERestrictionType, from: Date, to: Date | number) {
+    super(GlobalPlayerRestriction.PARSE_CLASSNAME);
+    this.createdBy = createdBy;
+    this.targetAccount = targetAccount;
+    this.explanation = explanation;
+    this.type = type;
+    this.from = from;
 
-        if (to instanceof Date) {
-            this.to = to;
-        } else if (from) {
-            this.to = new Date(from.getTime() + to * 3600000);
-        }
+    if (to instanceof Date) {
+      this.to = to;
+    } else if (from) {
+      this.to = new Date(from.getTime() + to * 3600000);
     }
+  }
 
-    /**
-     * Getter createdBy
-     * @return {Account}
-     */
-    public get createdBy(): Account {
-        return this._createdBy;
-    }
+  /**
+   * Getter targetAccount
+   * @return {Account}
+   */
+  public get targetAccount(): Account {
+    return this._targetAccount;
+  }
 
-    /**
-     * Getter explanation
-     * @return {string}
-     */
-    public get explanation(): string {
-        return this._explanation;
-    }
+  /**
+   * Setter targetAccount
+   * @param {Account} value
+   */
+  public set targetAccount(value: Account) {
+    this._targetAccount = value;
+  }
 
-    /**
-     * Getter type
-     * @return {ERestrictionType}
-     */
-    public get type(): ERestrictionType {
-        return this._type;
-    }
 
-    /**
-     * Getter from
-     * @return {Date}
-     */
-    public get from(): Date {
-        return this._from;
-    }
+  /**
+   * Getter createdBy
+   * @return {Account}
+   */
+  public get createdBy(): Account {
+    return this._createdBy;
+  }
 
-    /**
-     * Getter to
-     * @return {Date}
-     */
-    public get to(): Date {
-        return this._to;
-    }
+  /**
+   * Getter explanation
+   * @return {string}
+   */
+  public get explanation(): string {
+    return this._explanation;
+  }
 
-    /**
-     * Setter createdBy
-     * @param {Account} value
-     */
-    public set createdBy(value: Account) {
-        this._createdBy = value;
-    }
+  /**
+   * Getter type
+   * @return {ERestrictionType}
+   */
+  public get type(): ERestrictionType {
+    return this._type;
+  }
 
-    /**
-     * Setter explanation
-     * @param {string} value
-     */
-    public set explanation(value: string) {
-        this._explanation = value;
-    }
+  /**
+   * Getter from
+   * @return {Date}
+   */
+  public get from(): Date {
+    return this._from;
+  }
 
-    /**
-     * Setter type
-     * @param {ERestrictionType} value
-     */
-    public set type(value: ERestrictionType) {
-        this._type = value;
-    }
+  /**
+   * Getter to
+   * @return {Date}
+   */
+  public get to(): Date {
+    return this._to;
+  }
 
-    /**
-     * Setter from
-     * @param {Date} value
-     */
-    public set from(value: Date) {
-        this._from = value;
-    }
+  /**
+   * Setter createdBy
+   * @param {Account} value
+   */
+  public set createdBy(value: Account) {
+    this._createdBy = value;
+  }
 
-    /**
-     * Setter to
-     * @param {Date} value
-     */
-    public set to(value: Date) {
-        this._to = value;
-    }
+  /**
+   * Setter explanation
+   * @param {string} value
+   */
+  public set explanation(value: string) {
+    this._explanation = value;
+  }
 
+  /**
+   * Setter type
+   * @param {ERestrictionType} value
+   */
+  public set type(value: ERestrictionType) {
+    this._type = value;
+  }
+
+  /**
+   * Setter from
+   * @param {Date} value
+   */
+  public set from(value: Date) {
+    this._from = value;
+  }
+
+  /**
+   * Setter to
+   * @param {Date} value
+   */
+  public set to(value: Date) {
+    this._to = value;
+  }
+
+  public getUntilText() {
+    return moment(this.to).fromNow(true);
+  }
 }
 BaseModel.registerClass(GlobalPlayerRestriction, GlobalPlayerRestriction.PARSE_CLASSNAME);
