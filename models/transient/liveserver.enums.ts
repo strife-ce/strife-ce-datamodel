@@ -19,6 +19,7 @@ export enum EC2ServerMessage {
 }
 
 export enum ES2ClientMessage {
+  ERROR_MESSAGE = 'S2C_ERROR_MESSAGE',
   AUTH_ACCEPTED = 'S2C_AUTH_ACCEPTED',
   CHAT_MSG = 'S2C_CHAT_MSG',
   CHAT_JOINED_ROOM = 'S2C_CHAT_JOINED_ROOM',

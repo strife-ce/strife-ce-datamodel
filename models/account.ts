@@ -1,4 +1,5 @@
 import { BaseModel, Parse } from './base';
+import { GlobalPlayer } from './global-player';
 
 export enum EAccountFlags {
   NONE = 0,
@@ -11,6 +12,7 @@ export class Account extends BaseModel {
 
   private _name: string;
   private _flags: EAccountFlags;
+  private _globalPlayer: GlobalPlayer;
 
   constructor() {
     super(Account.PARSE_CLASSNAME);
@@ -39,6 +41,23 @@ export class Account extends BaseModel {
   public set flags(value: EAccountFlags) {
     this._flags = value;
   }
+
+  /**
+   * Getter globalPlayer
+   * @return {GlobalPlayer}
+   */
+  public get globalPlayer(): GlobalPlayer {
+    return this._globalPlayer;
+  }
+
+  /**
+   * Setter globalPlayer
+   * @param {GlobalPlayer} value
+   */
+  public set globalPlayer(value: GlobalPlayer) {
+    this._globalPlayer = value;
+  }
+
 }
 
 BaseModel.registerClass(Account, Account.PARSE_CLASSNAME);

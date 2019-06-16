@@ -13,12 +13,13 @@ export class BaseModel extends Parse.Object {
     }
 
     public static save<T extends Parse.Object>(object: T, saveCallback: (attrs?: { [key: string]: any } | null, options?: Parse.Object.SaveOptions) => Parse.Promise<T>): Parse.Promise<T> {
-        const ignoredAttrKeys = ['_objCount', '_sessionToken']
+        const ignoredAttrKeys = ['_objCount', '_sessionToken'];
         for (const attrKey of Object.keys(object)) {
             if (attrKey[0] === '_' && ignoredAttrKeys.indexOf(attrKey) < 0) {
                 object.set(attrKey.substr(1), object[attrKey]);
             }
         }
+
         if (ParseService.isParseServer()) {
             return saveCallback.bind(object)(null, { useMasterKey: true });
         } else {

@@ -23,6 +23,7 @@ export class UserService extends BaseModelService<User> {
             const query = new Parse.Query(Parse.Session);
             query.equalTo('sessionToken', sessionToken);
             query.include('user.account');
+            query.include('user.account.globalPlayer');
             query.first({ useMasterKey: true }).then(session => resolve(session.get('user')), error => this.errorService.handleParseErrors(error));
         });
     }
