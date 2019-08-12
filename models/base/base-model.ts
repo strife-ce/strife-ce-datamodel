@@ -13,7 +13,9 @@ export class BaseModel extends Parse.Object {
   }
 
   public static save<T extends Parse.Object>(object: T, saveCallback: (attrs?: { [key: string]: any } | null, options?: Parse.Object.SaveOptions) => Parse.Promise<T>): Parse.Promise<T> {
-    const ignoredAttrKeys = ['_objCount', '_sessionToken'];
+    object['_pendingInit'] = false;
+
+    const ignoredAttrKeys = ['_objCount', '_sessionToken', '_pendingInit'];
     for (const attrKey of Object.keys(object)) {
       if (attrKey[0] === '_' && ignoredAttrKeys.indexOf(attrKey) < 0) {
         object.set(attrKey.substr(1), object[attrKey]);
@@ -27,8 +29,11 @@ export class BaseModel extends Parse.Object {
     }
   }
 
-  public static setExisted<T extends Parse.Object>(object: T, isExisted: boolean, existedCallback: (arg0: boolean) => void) {
+  public static initParseObject<T extends Parse.Object>(object: T) {
+    object['_pendingInit'] = true;
+  }
 
+  public static setExisted<T extends Parse.Object>(object: T, isExisted: boolean, existedCallback: (arg0: boolean) => void) {
     if (!object.existed()) {
       for (const attrKey of Object.keys(object)) {
         if (attrKey[0] === '_' && attrKey !== '_objCount' && attrKey !== '_id') {
@@ -38,10 +43,11 @@ export class BaseModel extends Parse.Object {
     }
 
     for (const attrKey of Object.keys(object.attributes)) {
-      if (object[attrKey] === undefined) {
+      if (object[attrKey] === undefined || object['_pendingInit']) {
         object['_' + attrKey] = object.get(attrKey);
       }
     }
+    object['_pendingInit'] = false;
     existedCallback.bind(object)(isExisted);
   }
 
@@ -50,6 +56,7 @@ export class BaseModel extends Parse.Object {
     if (className === '' || className === undefined) {
       console.warn('Constructor called without class name!');
     }
+    BaseModel.initParseObject(this);
   }
 
   public save(): Parse.Promise<this> {

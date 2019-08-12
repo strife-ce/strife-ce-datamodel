@@ -21,6 +21,7 @@ export class User extends Parse.User {
 
   constructor() {
     super(User.PARSE_CLASSNAME);
+    BaseModel.initParseObject(this);
     this._settings = {};
     this.setSetting(EUserSettingEnum.CHAT_MUTE, false);
   }
