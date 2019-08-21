@@ -1,6 +1,5 @@
 export enum EHeroEnum {
   NO_HERO,
-  RANDOM,
   ACE,
   AEMON,
   BANDITO,
@@ -37,11 +36,11 @@ export enum EHeroEnum {
   VERMILLION,
   VEX,
   ZAKU,
+  RANDOM,
 }
 
 export const HeroEnumText = new Map<EHeroEnum, string>()
 .set(EHeroEnum.NO_HERO, 'No hero selected')
-.set(EHeroEnum.RANDOM, 'Random')
 .set(EHeroEnum.ACE, 'Ace')
 .set(EHeroEnum.AEMON, 'Aemon')
 .set(EHeroEnum.BANDITO, 'Bandito')
@@ -77,7 +76,8 @@ export const HeroEnumText = new Map<EHeroEnum, string>()
   .set(EHeroEnum.TRIXIE, 'Trixie')
   .set(EHeroEnum.VERMILLION, 'Vermillion')
   .set(EHeroEnum.VEX, 'Vex')
-  .set(EHeroEnum.ZAKU, 'Zaku');
+  .set(EHeroEnum.ZAKU, 'Zaku')
+  .set(EHeroEnum.RANDOM, 'Random');
 
 export const HeroEnumGameName = new Map<EHeroEnum, string>()
   .set(EHeroEnum.ACE, 'Hero_Ace')
