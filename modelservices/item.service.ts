@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import * as itemCollection from '../json/items.json';
+import {items as itemCollection} from '../json/items.json';
 import { ErrorService } from '../services';
-import { BasicItem, Item, ItemEmpowerment } from '@app/data/common/models';
+import { BasicItem, Item, ItemEmpowerment } from '../models';
 
 @Injectable()
 export class ItemService {
