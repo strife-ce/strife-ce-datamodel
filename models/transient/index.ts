@@ -1,5 +1,6 @@
 export * from './chat-account';
 export * from './hero.enums';
+export * from './item';
 export * from './liveserver.enums';
 export * from './match-info';
 export * from './page-info';
